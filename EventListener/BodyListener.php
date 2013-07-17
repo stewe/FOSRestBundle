@@ -28,7 +28,6 @@ class BodyListener
      */
     private $decoderProvider;
 
-
     /**
      * @var $defaultFormat
      */
@@ -63,24 +62,26 @@ class BodyListener
                 ? $request->getRequestFormat()
                 : $request->getFormat($contentType);
 
-            if(empty($format)){
-                $format=$this->defaultFormat;
+            if (empty($format)) {
+                $format = $this->defaultFormat;
             }
+
             if (!$this->decoderProvider->supports($format)) {
                 return;
             }
 
-
             $decoder = $this->decoderProvider->getDecoder($format);
 
             $data = $decoder->decode($request->getContent(), $format);
+
             if (is_array($data)) {
                 $request->request = new ParameterBag($data);
             }
         }
     }
 
-    public function setDefaultFormat($defaultFormat){
-        $this->defaultFormat=$defaultFormat;
+    public function setDefaultFormat($defaultFormat)
+    {
+        $this->defaultFormat = $defaultFormat;
     }
 }
